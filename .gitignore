@@ -1,0 +1,9 @@
+.env
+__pycache__/
+
+chat_logs.txt
+bot_logs.txt
+.venv/
+venv/
+env/
+ENV/
