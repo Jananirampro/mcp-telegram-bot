@@ -23,7 +23,8 @@ if not TELEGRAM_TOKEN:
 logging.basicConfig(
     filename="chat_logs.txt",
     level=logging.INFO,
-    format="%(asctime)s - %(levelname)s - %(message)s"
+    format="%(asctime)s - %(levelname)s - %(message)s",
+    encoding="utf-8"
 )
 
 # 🟢 /start command
@@ -39,10 +40,18 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 MCP_SERVER_URL,
-                json={"model": "openrouter/cypher-alpha:free", "message": user_message}
+                json={"model": "mistralai/mistral-7b-instruct:free", "message": user_message}
             )
             response.raise_for_status()
-            reply = response.json().get("response", "⚠️ No reply from MCP.")
+            data = response.json() 
+           
+            print(f"📦 MCP raw response: {data}")  # ✅ Debug print
+            logging.info(f"[User:{user_id}] MCP raw response: {data}")
+            reply = data.get("response") or data.get("message") or (
+                data.get("choices", [{}])[0].get("message", {}).get("content")
+            )
+            if not reply:
+                raise ValueError("❌ 'response' key missing in MCP reply.")
     except Exception as e:
         logging.error(f"[User:{user_id}] MCP Server Error: {e}")
         reply = "🚨 MCP server is unavailable."
