@@ -3,6 +3,8 @@ import logging
 import httpx
 from dotenv import load_dotenv
 from telegram import Update
+import telegram
+print(f"python-telegram-bot version: {telegram.__version__}")
 from telegram.ext import (
     ApplicationBuilder,
     CommandHandler,
