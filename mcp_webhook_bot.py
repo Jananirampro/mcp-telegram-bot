@@ -54,6 +54,7 @@ app = FastAPI()
 
 @app.on_event("startup")
 async def set_webhook():
+    await application.initialize()  # ✅ This is what was missing
     await application.bot.set_webhook(f"{BOT_URL}/webhook")
 
 @app.post("/webhook")
