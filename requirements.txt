@@ -2,5 +2,5 @@ fastapi
 uvicorn
 httpx
 python-dotenv
-python-telegram-bot==20.8
+python-telegram-bot==20.5
 openai
