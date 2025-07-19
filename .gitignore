@@ -8,3 +8,6 @@ venv/
 env/
 ENV/
 venv-311/
+.idea
+*.pyc
+__pycache__/
